@@ -1,0 +1,6 @@
+{
+  "name": "PolyAnnotate",
+  "description": "Interactive platform for teaching polyline segmentation in image annotation and computer vision.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

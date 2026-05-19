@@ -1,0 +1,68 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Information about the user and their role.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "role": { "type": "string", "enum": ["student", "instructor"], "description": "User role" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Progress": {
+      "title": "Student Progress",
+      "description": "Tracks completed lessons and scores.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "completedLessons": { "type": "array", "items": { "type": "string" } },
+        "quizResults": { "type": "object", "additionalProperties": { "type": "number" } },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId"]
+    },
+    "PracticeSession": {
+      "title": "Practice Annotation Session",
+      "description": "Stores polyline data from a practice session.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "imageId": { "type": "string" },
+        "polylines": { 
+          "type": "array", 
+          "items": { 
+            "type": "array", 
+            "items": { 
+              "type": "object", 
+              "properties": {
+                "x": { "type": "number" },
+                "y": { "type": "number" }
+              }
+            }
+          }
+        },
+        "accuracy": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "polylines"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Individual user profiles."
+    },
+    "/progress/{userId}": {
+      "schema": "Progress",
+      "description": "Learning progress per user."
+    },
+    "/sessions/{sessionId}": {
+      "schema": "PracticeSession",
+      "description": "Saved annotation practice sessions."
+    }
+  }
+}
