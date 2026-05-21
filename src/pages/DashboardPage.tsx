@@ -37,6 +37,12 @@ import { Link } from 'react-router-dom';
 const TASK_MAP: Record<string, string> = {
   'road-1': 'Highway Lane Marking',
   'rail-1': 'Railway Tracks',
+  'rail-1-1': 'Rail: Industrial Cargo Depot',
+  'rail-1-2': 'Rail: Metropoli Junction',
+  'rail-1-3': 'Rail: Forest Wilderness Pass',
+  'rail-1-4': 'Rail: Seashore Coastal Lines',
+  'rail-1-5': 'Rail: Golden Sunset Prairie',
+  'rail-1-6': 'Rail: Snowy Mountain Crossing',
   'pipeline-1': 'Industrial Pipelines'
 };
 
