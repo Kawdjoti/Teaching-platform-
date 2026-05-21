@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { AlertCircle, CheckCircle2, Info, Save, Share2, Trash2 } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Info, Save, Share2, Trash2, Lock, PlayCircle } from 'lucide-react';
 import PolylineCanvas from '../components/PolylineCanvas';
 import { cn } from '../lib/utils';
+import { useAuth } from '../context/AuthContext';
+import SignupModal from '../components/SignupModal';
 
 const SAMPLE_TASKS = [
   {
     id: 'road-1',
     title: 'Highway Lane Marking',
     description: 'Trace the dashed white lines separating the lanes.',
-    image: 'https://images.unsplash.com/photo-1545143333-6382f1d5b893?auto=format&fit=crop&q=80&w=1200',
+    image: '/polyline.jpg',
     difficulty: 'Beginner'
   },
   {
     id: 'rail-1',
     title: 'Railway Tracks',
     description: 'Segment the rail lines extending towards the horizon.',
-    image: 'https://images.unsplash.com/photo-1474487548417-781f37a96e4b?auto=format&fit=crop&q=80&w=1200',
+    image: '/railway_tracks.png',
     difficulty: 'Intermediate'
   },
   {
@@ -28,9 +30,11 @@ const SAMPLE_TASKS = [
   }
 ];
 
-import AITips from '../components/AITips';
+import TrainingGuide from '../components/TrainingGuide';
 
 export default function PracticeLabPage() {
+  const { user } = useAuth();
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(SAMPLE_TASKS[0]);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
 
@@ -48,7 +52,6 @@ export default function PracticeLabPage() {
       <div className="flex flex-col gap-8 lg:flex-row">
         {/* Sidebar */}
         <div className="w-full lg:w-80 flex flex-col gap-6">
-          <AITips context={currentTask.title} />
 
           <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
             <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-400 mb-4">Select Task</h3>
@@ -71,22 +74,6 @@ export default function PracticeLabPage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-400 mb-4">Stats & Feedback</h3>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-zinc-500">Accuracy Score</span>
-                <span className="text-lg font-bold text-zinc-900">84%</span>
-              </div>
-              <div className="w-full h-2 rounded-full bg-zinc-100 overflow-hidden">
-                <div className="h-full bg-emerald-500 w-[84%]" />
-              </div>
-              <p className="text-xs text-zinc-500 italic">
-                Tip: Try placing points precisely on the corners for better accuracy.
-              </p>
-            </div>
-          </div>
-
           <div className="bg-amber-50 p-6 rounded-2xl border border-amber-100 flex gap-3">
             <Info className="h-5 w-5 text-amber-600 shrink-0" />
             <div>
@@ -105,11 +92,54 @@ export default function PracticeLabPage() {
             <p className="text-zinc-500 mt-2">{currentTask.description}</p>
           </div>
           
-          <PolylineCanvas 
-            key={currentTask.id}
-            imageUrl={currentTask.image} 
-            onSave={handleSave}
-          />
+          {!user ? (
+            <div id="locked-sandbox-stage" className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-100/30 p-12 text-center aspect-[4/3] flex flex-col items-center justify-center">
+              {/* Grid background */}
+              <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-40" />
+              
+              {/* Lock Indicator */}
+              <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-900 text-white shadow-xl mb-6">
+                <Lock className="h-6 w-6 text-indigo-400" />
+              </div>
+
+              <div className="relative z-10 max-w-md flex flex-col items-center">
+                <span className="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+                  Interactive Lab Locked
+                </span>
+                <h3 className="text-2xl font-extrabold tracking-tight text-zinc-900 mt-3">
+                  Account Registration Required
+                </h3>
+                <p className="text-sm text-zinc-500 mt-2 leading-relaxed">
+                  Real-time overlay drafting, precision rating evaluations, and progress sync profiles require registering an official Datamaker training account.
+                </p>
+
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                  <button
+                    id="practice-unlock-btn"
+                    onClick={() => setIsSignupOpen(true)}
+                    className="rounded-2xl bg-zinc-950 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-zinc-900/10 hover:bg-zinc-800 transition-all active:scale-95 cursor-pointer"
+                  >
+                    Unlock Sandbox Laboratory
+                  </button>
+                  <button
+                    id="practice-secondary-sign-btn"
+                    onClick={() => setIsSignupOpen(true)}
+                    className="rounded-2xl border border-zinc-200 bg-white px-6 py-3 text-sm font-bold text-zinc-700 hover:bg-zinc-50 transition-all cursor-pointer"
+                  >
+                    Authenticate with Google
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <PolylineCanvas 
+              key={currentTask.id}
+              imageUrl={currentTask.image} 
+              onSave={handleSave}
+            />
+          )}
+
+          <TrainingGuide />
 
           {saveStatus === 'saved' && (
             <motion.div 
@@ -123,6 +153,11 @@ export default function PracticeLabPage() {
           )}
         </div>
       </div>
+      <SignupModal 
+        isOpen={isSignupOpen} 
+        onClose={() => setIsSignupOpen(false)} 
+        sourceContext="practice" 
+      />
     </div>
   );
 }

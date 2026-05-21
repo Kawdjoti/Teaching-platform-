@@ -97,7 +97,10 @@ export default function LandingPage() {
             <div className="relative aspect-video rounded-3xl bg-zinc-900 overflow-hidden shadow-2xl">
               <div className="absolute inset-0 flex items-center justify-center">
                 {/* Mock UI for Polyline Tracing */}
-                <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1545143333-6382f1d5b893?auto=format&fit=crop&q=80&w=1000')] bg-cover opacity-50" />
+                <div 
+                  className="w-full h-full bg-cover bg-center opacity-50" 
+                  style={{ backgroundImage: "url('/polyline.jpg')" }}
+                />
                 <svg className="absolute inset-0 w-full h-full pointer-events-none">
                   <motion.path
                     d="M 100 200 L 300 150 L 500 250 L 700 100"

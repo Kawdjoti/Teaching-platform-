@@ -13,11 +13,33 @@ interface PolylineCanvasProps {
 }
 
 export default function PolylineCanvas({ imageUrl, onSave }: PolylineCanvasProps) {
-  const [image] = useImage(imageUrl);
+  const [currentUrl, setCurrentUrl] = useState(imageUrl);
+  const [image, status] = useImage(currentUrl);
   const [polylines, setPolylines] = useState<Point[][]>([]);
   const [currentPolyline, setCurrentPolyline] = useState<Point[]>([]);
   const [stageSize, setStageSize] = useState({ width: 800, height: 600 });
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Handle URL change
+  useEffect(() => {
+    setCurrentUrl(imageUrl);
+  }, [imageUrl]);
+
+  // Fallback chain for uploaded images in Workspace
+  useEffect(() => {
+    if (status === 'failed') {
+      console.log(`Failed to load: ${currentUrl}, trying fallback...`);
+      if (currentUrl === '/workspace_image_0.png') {
+        setCurrentUrl('/railway_tracks.png');
+      } else if (currentUrl === '/railway_tracks.png') {
+        setCurrentUrl('/workspace_image_0.jpg');
+      } else if (currentUrl === '/workspace_image_0.jpg') {
+        setCurrentUrl('/workspace_image_0.jpeg');
+      } else if (currentUrl === '/workspace_image_0.jpeg') {
+        setCurrentUrl('https://images.unsplash.com/photo-1474487548417-781f37a96e4b?auto=format&fit=crop&q=80&w=1200');
+      }
+    }
+  }, [status, currentUrl]);
 
   // Responsive stage resizing
   useEffect(() => {

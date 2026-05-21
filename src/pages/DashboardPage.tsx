@@ -26,8 +26,6 @@ const DATA = [
 export default function DashboardPage() {
   const stats = [
     { label: 'Total Lessons', value: '4 / 12', icon: Target, color: 'text-blue-600', bg: 'bg-blue-50' },
-    { label: 'Avg Accuracy', value: '84%', icon: TrendingUp, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { label: 'Time Spent', value: '12.4h', icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50' },
     { label: 'Certificates', value: '1', icon: Award, color: 'text-purple-600', bg: 'bg-purple-50' },
   ];
 
@@ -39,7 +37,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
         {stats.map((stat) => (
           <motion.div
             key={stat.label}
