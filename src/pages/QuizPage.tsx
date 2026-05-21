@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle2, ChevronRight, HelpCircle, Trophy, XCircle } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useAuth } from '../context/AuthContext';
+import { saveQuizScoreInFirestore } from '../lib/firestoreService';
 
 const QUESTIONS = [
   {
@@ -40,6 +42,7 @@ const QUESTIONS = [
 ];
 
 export default function QuizPage() {
+  const { user } = useAuth();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -48,9 +51,11 @@ export default function QuizPage() {
 
   const currentQuestion = QUESTIONS[currentIdx];
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    let finalScore = score;
     if (selectedOption === currentQuestion.answer) {
-      setScore(score + 1);
+      finalScore = score + 1;
+      setScore(finalScore);
     }
 
     if (currentIdx < QUESTIONS.length - 1) {
@@ -59,6 +64,14 @@ export default function QuizPage() {
       setShowResult(false);
     } else {
       setIsFinished(true);
+      if (user) {
+        const percentage = Math.round((finalScore / QUESTIONS.length) * 100);
+        try {
+          await saveQuizScoreInFirestore(user.uid, 'concepts-assessment-1', percentage);
+        } catch (err) {
+          console.error("Failed to save quiz score in DB:", err);
+        }
+      }
     }
   };
 

@@ -11,11 +11,12 @@ import {
   Eye, 
   HelpCircle, 
   CheckCircle, 
-  XOctagon 
+  XOctagon,
+  Image as ImageIcon
 } from 'lucide-react';
 
 export default function TrainingGuide() {
-  const [activeTab, setActiveTab] = useState<'concepts' | 'controls' | 'categories' | 'rules'>('concepts');
+  const [activeTab, setActiveTab] = useState<'concepts' | 'controls' | 'categories' | 'rules' | 'examples'>('concepts');
 
   const categories = [
     {
@@ -58,7 +59,8 @@ export default function TrainingGuide() {
             { id: 'concepts', label: '1. Concepts', icon: BookOpen },
             { id: 'controls', label: '2. Tool Controls', icon: Settings },
             { id: 'categories', label: '3. Classes', icon: Layers },
-            { id: 'rules', label: '4. Best Practices', icon: AlertTriangle }
+            { id: 'rules', label: '4. Best Practices', icon: AlertTriangle },
+            { id: 'examples', label: '5. Visual Examples', icon: ImageIcon }
           ].map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -246,6 +248,99 @@ export default function TrainingGuide() {
                     <span><strong>Sparse curve nodes:</strong> Avoid placing too few points on curves, which results in sharp straight lines wrapping geometric arches.</span>
                   </li>
                 </ul>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {activeTab === 'examples' && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-8"
+          >
+            <div>
+              <h3 className="text-xl font-bold text-zinc-900">Interactive Polyline Trace Examples</h3>
+              <p className="text-zinc-550 text-sm mt-1">Study how professional annotators segment dynamic roadway targets, pedestrian pathways, and vehicle profiles.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Road Lane Example */}
+              <div className="flex flex-col bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
+                <div className="relative aspect-[4/3] bg-zinc-900 overflow-hidden">
+                  <img 
+                    src="/src/assets/images/annotated_road_1779375240587.png" 
+                    alt="Annotated Highway Lane Marking with precision polyline guidelines" 
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="absolute left-3 top-3 bg-blue-600 text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Roadways</span>
+                </div>
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-bold text-sm text-zinc-900">Highway Lane Tracking</h4>
+                    <p className="text-xs text-zinc-500 mt-1.5 leading-relaxed">
+                      Tracing long dashed and continuous road lines separating traffic lanes. Essential for autonomous lane centering.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-zinc-200/60 text-[11px] text-zinc-450 space-y-1.5">
+                    <span className="font-semibold text-zinc-700 block">Trace Standard:</span>
+                    <p>• Place nodes at the exact physical center of the painted lane line.</p>
+                    <p>• Straight lines need fewer points; curves require dense node placement.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Human Pedestrian Example */}
+              <div className="flex flex-col bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
+                <div className="relative aspect-[4/3] bg-zinc-900 overflow-hidden">
+                  <img 
+                    src="/src/assets/images/annotated_human_1779375257595.png" 
+                    alt="Annotated Human Pedestrian Tracing with precision polyline skeletons" 
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="absolute left-3 top-3 bg-indigo-600 text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Humans</span>
+                </div>
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-bold text-sm text-zinc-900">Pedestrian Motion Paths</h4>
+                    <p className="text-xs text-zinc-500 mt-1.5 leading-relaxed">
+                      Mapping skeletal joints, posture guides, and trajectory corridors of pedestrians across urban walkways.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-zinc-200/60 text-[11px] text-zinc-450 space-y-1.5">
+                    <span className="font-semibold text-zinc-700 block">Trace Standard:</span>
+                    <p>• Draw polylines following multi-point skeletal joint systems.</p>
+                    <p>• Map dynamic forward movement trails using prediction vectors.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Car Example */}
+              <div className="flex flex-col bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
+                <div className="relative aspect-[4/3] bg-zinc-900 overflow-hidden">
+                  <img 
+                    src="/src/assets/images/annotated_car_1779375281630.png" 
+                    alt="Annotated Car Lane Tracking with contour polyline outline vectors" 
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover"
+                  />
+                  <span className="absolute left-3 top-3 bg-amber-600 text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Vehicles</span>
+                </div>
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-bold text-sm text-zinc-900">Car Contours & Trails</h4>
+                    <p className="text-xs text-zinc-500 mt-1.5 leading-relaxed">
+                      Locking onto bottom wheel lines, physical body outlines, or rear direction vectors of vehicle units in dense traffic.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-zinc-200/60 text-[11px] text-zinc-450 space-y-1.5">
+                    <span className="font-semibold text-zinc-700 block">Trace Standard:</span>
+                    <p>• Delineate under-carriage road contact point segments.</p>
+                    <p>• Maintain a consistent contour layout for occlusion modeling.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>

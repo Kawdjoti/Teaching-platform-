@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
 import { auth, signInWithGoogle } from '../lib/firebase';
+import { getOrCreateUserProfile } from '../lib/firestoreService';
 
 interface AuthContextType {
   user: User | null;
@@ -19,12 +20,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [authError, setAuthError] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-      if (user) {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        try {
+          // Provision Firestore profile asynchronously on login
+          await getOrCreateUserProfile(currentUser);
+        } catch (error) {
+          console.error("Firestore user profile sync failed on auth changed:", error);
+        }
         setAuthError(null); // Clear any errors on successful sign in
       }
+      setUser(currentUser);
+      setLoading(false);
     });
     return unsubscribe;
   }, []);

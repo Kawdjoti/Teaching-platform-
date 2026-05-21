@@ -4,6 +4,7 @@ import { Play, BookOpen, Clock, BarChart, ChevronRight, X, Sparkles, Check, Info
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import SignupModal from '../components/SignupModal';
+import { completeLessonInFirestore } from '../lib/firestoreService';
 
 const LESSONS = [
   {
@@ -26,11 +27,16 @@ export default function TutorialPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeTab, setActiveTab] = useState<'video' | 'details'>('video');
 
-  const handleStartLesson = (lesson: typeof LESSONS[0]) => {
+  const handleStartLesson = async (lesson: typeof LESSONS[0]) => {
     if (!user) {
       setIsSignupOpen(true);
     } else {
       setSelectedLesson(lesson);
+      try {
+        await completeLessonInFirestore(user.uid, String(lesson.id));
+      } catch (err) {
+        console.error("Failed to update lesson completion in DB:", err);
+      }
     }
   };
 
