@@ -7,13 +7,68 @@ import { useAuth } from '../context/AuthContext';
 import SignupModal from '../components/SignupModal';
 import { savePracticeSessionInFirestore } from '../lib/firestoreService';
 
+// @ts-ignore
+import railwayTracksTwo from '../assets/images/railway_tracks_two_1779375799153.png';
+// @ts-ignore
+import railwayTracksThree from '../assets/images/railway_tracks_three_1779375819099.png';
+// @ts-ignore
+import railwayTracksFour from '../assets/images/railway_tracks_four_1779375836367.png';
+// @ts-ignore
+import railwayTracksFive from '../assets/images/railway_tracks_five_1779375858080.png';
+// @ts-ignore
+import railwayTracksSix from '../assets/images/railway_tracks_six_1779375877928.png';
+
 const SAMPLE_TASKS = [
   {
     id: 'road-1',
     title: 'Highway Lane Marking',
     description: 'Trace the dashed white lines separating the lanes.',
-    image: '/polyline.jpg',
-    difficulty: 'Beginner'
+    image: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&q=80&w=1200',
+    difficulty: 'Beginner',
+    subScenarios: [
+      {
+        id: 'road-1-1',
+        title: 'Expressway Straightaway',
+        description: 'Practice basic straight dashed-lane tracking on an open multi-lane freeway.',
+        image: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 1'
+      },
+      {
+        id: 'road-1-2',
+        title: 'Mountain Pass Curve',
+        description: 'Trace solid yellow shoulder boundaries and central divider lanes on winding mountain highways.',
+        image: 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 2'
+      },
+      {
+        id: 'road-1-3',
+        title: 'Metropolitan Junction',
+        description: 'Trace lane merging thresholds and double-solid dividers across city intersections.',
+        image: 'https://images.unsplash.com/photo-1504914900005-ec940cc0612c?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 3'
+      },
+      {
+        id: 'road-1-4',
+        title: 'Coastal Driveway',
+        description: 'Delineate continuous double yellow separation lanes next to steep ocean bluffs.',
+        image: 'https://images.unsplash.com/photo-1470224114660-3f6686c562eb?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 4'
+      },
+      {
+        id: 'road-1-5',
+        title: 'Crossing Zone Corridor',
+        description: 'Draft pedestrian walk boundaries adjacent to multi-vehicle traffic blocks.',
+        image: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 5'
+      },
+      {
+        id: 'road-1-6',
+        title: 'Rainy Expressway Night',
+        description: 'Delineate high-reflection water logged lane divider paths on asphalt road beds.',
+        image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 6'
+      }
+    ]
   },
   {
     id: 'rail-1',
@@ -33,35 +88,35 @@ const SAMPLE_TASKS = [
         id: 'rail-1-2',
         title: 'Metropoli Junction',
         description: 'Delineate intersecting multi-line train paths under urban overhead corridors.',
-        image: '/src/assets/images/railway_tracks_two_1779375799153.png',
+        image: railwayTracksTwo,
         tag: 'Level 2'
       },
       {
         id: 'rail-1-3',
         title: 'Forest Wilderness Pass',
         description: 'Identify and segment curved single rails running deep through pine forests.',
-        image: '/src/assets/images/railway_tracks_three_1779375819099.png',
+        image: railwayTracksThree,
         tag: 'Level 3'
       },
       {
         id: 'rail-1-4',
         title: 'Seashore Coastal Lines',
         description: 'Map high-contrast double-rails running parallel to dynamic coastline shores.',
-        image: '/src/assets/images/railway_tracks_four_1779375836367.png',
+        image: railwayTracksFour,
         tag: 'Level 4'
       },
       {
         id: 'rail-1-5',
         title: 'Golden Sunset Prairie',
         description: 'Trace long-perspective highway-adjacent paths converging at the sun line.',
-        image: '/src/assets/images/railway_tracks_five_1779375858080.png',
+        image: railwayTracksFive,
         tag: 'Level 5'
       },
       {
         id: 'rail-1-6',
         title: 'Snowy Mountain Crossing',
         description: 'Delineate single rails obscured by snowy weather obstacles and debris.',
-        image: '/src/assets/images/railway_tracks_six_1779375877928.png',
+        image: railwayTracksSix,
         tag: 'Level 6'
       }
     ]
@@ -70,8 +125,52 @@ const SAMPLE_TASKS = [
     id: 'pipeline-1',
     title: 'Industrial Pipelines',
     description: 'Map the industrial pipes in the factory complex.',
-    image: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&q=80&w=1200',
-    difficulty: 'Advanced'
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200',
+    difficulty: 'Advanced',
+    subScenarios: [
+      {
+        id: 'pipeline-1-1',
+        title: 'Chemical Factory Complex',
+        description: 'Trace parallel overhead pipelines crossing the central factory warehouse structure.',
+        image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 1'
+      },
+      {
+        id: 'pipeline-1-2',
+        title: 'Geothermal Steam Pipes',
+        description: 'Delineate high-temperature insulated piping systems connecting steam valves.',
+        image: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 2'
+      },
+      {
+        id: 'pipeline-1-3',
+        title: 'Refinery Intersections',
+        description: 'Delineate branching oil transport tubes and connecting curved bypass joints.',
+        image: 'https://images.unsplash.com/photo-1538097304804-0a1b93de90ca?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 3'
+      },
+      {
+        id: 'pipeline-1-4',
+        title: 'Water Treatment Plant',
+        description: 'Identify and track large PVC filtering columns and blue inflow pipes.',
+        image: 'https://images.unsplash.com/photo-1584467541268-b040f83be3fd?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 4'
+      },
+      {
+        id: 'pipeline-1-5',
+        title: 'LPG Gas Terminals',
+        description: 'Delineate primary liquid gas supply conduits spanning heavy-pressure steel girders.',
+        image: 'https://images.unsplash.com/photo-1542241647-9cbb2225278b?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 5'
+      },
+      {
+        id: 'pipeline-1-6',
+        title: 'Steam Distribution Mains',
+        description: 'Identify and map high-velocity steam output connections inside the industrial grid.',
+        image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1200',
+        tag: 'Level 6'
+      }
+    ]
   }
 ];
 
@@ -160,10 +259,10 @@ export default function PracticeLabPage() {
             <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400">
-                  Select Railway Track Scenario (6 Practice Images available)
+                  Select {currentTask.title} Scenario ({currentTask.subScenarios.length} Practice Images available)
                 </h3>
                 <span className="text-xs bg-zinc-100 text-zinc-700 font-bold px-2.5 py-1 rounded-full">
-                  Scenario {activeSubIdx + 1} of 6
+                  Scenario {activeSubIdx + 1} of {currentTask.subScenarios.length}
                 </span>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">

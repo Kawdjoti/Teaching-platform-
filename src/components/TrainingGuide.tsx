@@ -15,6 +15,13 @@ import {
   Image as ImageIcon
 } from 'lucide-react';
 
+// @ts-ignore
+import annotatedRoad from '../assets/images/annotated_road_1779375240587.png';
+// @ts-ignore
+import annotatedHuman from '../assets/images/annotated_human_1779375257595.png';
+// @ts-ignore
+import annotatedCar from '../assets/images/annotated_car_1779375281630.png';
+
 export default function TrainingGuide() {
   const [activeTab, setActiveTab] = useState<'concepts' | 'controls' | 'categories' | 'rules' | 'examples'>('concepts');
 
@@ -269,7 +276,7 @@ export default function TrainingGuide() {
               <div className="flex flex-col bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
                 <div className="relative aspect-[4/3] bg-zinc-900 overflow-hidden">
                   <img 
-                    src="/src/assets/images/annotated_road_1779375240587.png" 
+                    src={annotatedRoad} 
                     alt="Annotated Highway Lane Marking with precision polyline guidelines" 
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
@@ -295,7 +302,7 @@ export default function TrainingGuide() {
               <div className="flex flex-col bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
                 <div className="relative aspect-[4/3] bg-zinc-900 overflow-hidden">
                   <img 
-                    src="/src/assets/images/annotated_human_1779375257595.png" 
+                    src={annotatedHuman} 
                     alt="Annotated Human Pedestrian Tracing with precision polyline skeletons" 
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
@@ -321,7 +328,7 @@ export default function TrainingGuide() {
               <div className="flex flex-col bg-zinc-50 border border-zinc-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
                 <div className="relative aspect-[4/3] bg-zinc-900 overflow-hidden">
                   <img 
-                    src="/src/assets/images/annotated_car_1779375281630.png" 
+                    src={annotatedCar} 
                     alt="Annotated Car Lane Tracking with contour polyline outline vectors" 
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover"
